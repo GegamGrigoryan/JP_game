@@ -6,7 +6,7 @@ module.exports = merge(common, {
   mode: 'none',
   optimization: {
     minimizer: [
-      new CssMinimizerPlugin(),вncu -u
+      new CssMinimizerPlugin(),
     ],
   },
 });
