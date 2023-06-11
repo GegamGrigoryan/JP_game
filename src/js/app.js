@@ -1,4 +1,4 @@
- const imgUrl =
+const imgUrl =
   "https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/external-Samurai-japan-icongeek26-linear-colour-icongeek26.png";
 class Game {
   constructor(winCount, player, playerTwo) {
