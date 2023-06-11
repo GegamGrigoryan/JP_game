@@ -82,6 +82,8 @@ class Game {
       }
       if (playerTwo == this.winCount) {
         this.win(this.playerTwo);
+        playerTwo = 0;
+        countPlayer = 0;
         badSamuraiWidth.style.width = 50 + "%";
         samuraiWidth.style.width = 50 + "%";
       }
