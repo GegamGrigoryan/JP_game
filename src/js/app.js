@@ -42,8 +42,6 @@ class Game {
       cells[random].appendChild(img);
       cells[random].style = "border:2px solid #f1a825";
     }, interval);
-    //создали объект лица
-    //метод  появления лица персонажа
   }
   hit() {
     const field = document.querySelector(".playing-Field-container");
