@@ -1,9 +1,9 @@
 {
-  "name": "webpack5",
+  "name": "jp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "test":"test --passWithNoTests",
+  "test": "test --passWithNoTests",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
@@ -40,5 +40,11 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
+  },
+  "repository": "https://github.com/GegamGrigoryan/JP_game.git",
+  "dependencies": {
+    "-": "^0.0.1",
+    "global": "^4.4.0",
+    "yarn": "^1.22.19"
   }
 }
