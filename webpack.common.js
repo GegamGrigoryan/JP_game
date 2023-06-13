@@ -33,6 +33,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader, 'css-loader',
         ],
+        exclude: /node_modules/,
         sideEffects: true,
       },
       {
