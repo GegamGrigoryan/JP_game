@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "test": "test --passWithNoTests",
-  "private":"true",
+  "private": "true",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
@@ -45,6 +45,7 @@
   "repository": "https://github.com/GegamGrigoryan/JP_game.git",
   "dependencies": {
     "-": "^0.0.1",
+    "autoprefixer": "10.4.14",
     "global": "^4.4.0",
     "yarn": "^1.22.19"
   }
