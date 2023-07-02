@@ -1,10 +1,18 @@
 const imgUrl =
   "https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/external-Samurai-japan-icongeek26-linear-colour-icongeek26.png";
 class Game {
-  constructor(winCount, player, playerTwo) {
+  constructor(winCount, playerOneName, playerTwoName) {
     this.winCount = winCount;
-    this.player = player;
-    this.playerTwo = playerTwo;
+    this.playerOneName = playerOneName;
+    this.playerTwoName = playerTwoName;
+
+    this.countPlayerOne = 0;
+    this.playerCountTwo = 0;
+
+    this.samuraiWidth = document.querySelector(".samurai");
+    this.badSamuraiWidth = document.querySelector(".bad-samurai");
+    this.samuraiWidthNum = parseInt(this.samuraiWidth.style.width);
+    this.badSamuraiWidthNum = parseInt(this.badSamuraiWidth.style.width);
   }
 
   citations(citations) {
@@ -32,58 +40,94 @@ class Game {
   createdFaceAndGo(imgUrl, interval) {
     const cells = document.querySelectorAll(".cell");
     let img = document.createElement("img");
-    img.src = imgUrl;
+
     img.style.width = "100%";
     img.style.height = "100%";
     img.classList.add("img-face");
 
-    setInterval(() => {
+    this.timer = null;
+    this.timerFlag = true;
+
+    if (this.timerFlag === true) {
+      this.timer = setInterval(fn, interval);
+    }
+    if (this.timerFlag === false) {
+      clearInterval(this.timer);
+      this.timerFlag = true;
+    }
+
+    function fn() {
+      let winWrp = document.querySelector(".win-wrp");
+      let imgNoHit = document.createElement("img");
+      imgNoHit.src = "https://img.icons8.com/color/2x/fa314a/geisha.png";
+      imgNoHit.style.width = "100%";
+      imgNoHit.style.height = "100%";
+      imgNoHit.classList.add("img-face-no-hit");
+
       let random = Math.floor(Math.random() * cells.length);
+      let randomNohit = Math.floor(Math.random() * cells.length);
+      if (random == randomNohit) {
+        img.src = "https://img.icons8.com/color/2x/fa314a/geisha.png";
+        img.classList.add("img-face-no-hit");
+      } else {
+        img.src = imgUrl;
+        img.classList.remove("img-face-no-hit");
+      }
       cells[random].appendChild(img);
       cells[random].style = "border:2px solid #f1a825";
-    }, interval);
+    }
   }
   hit() {
     const field = document.querySelector(".playing-Field-container");
-    let countPlayer = 0;
-    let playerTwo = 0;
-    ///шкала жизни
-    let samuraiWidth = document.querySelector(".samurai");
-    let badSamuraiWidth = document.querySelector(".bad-samurai");
-    let samuraiWidthNum = parseInt(samuraiWidth.style.width);
-    let badSamuraiWidthNum = parseInt(badSamuraiWidth.style.width);
-    //
+
     field.addEventListener("click", (event) => {
       event.preventDefault();
       let theTarget = event.target;
+      let img = document.querySelector(".img-face");
 
       if (theTarget.classList.contains("img-face")) {
-        ++countPlayer;
+        ++this.countPlayerOne;
 
-        badSamuraiWidthNum += 10;
-        samuraiWidthNum -= 10;
-        badSamuraiWidth.style.width = badSamuraiWidthNum + "%";
-        samuraiWidth.style.width = samuraiWidthNum + "%";
+        theTarget.parentElement.style = "border:1px solid black";
+        this.timerFlag = false;
+        theTarget.parentElement.removeChild(img);
+
+        this.badSamuraiWidthNum -= 10;
+        this.samuraiWidthNum += 10;
+        this.badSamuraiWidth.style.width = this.badSamuraiWidthNum + "%";
+        this.samuraiWidth.style.width = this.samuraiWidthNum + "%";
       }
       if (!theTarget.classList.contains("img-face")) {
-        ++playerTwo;
+        ++this.playerCountTwo;
 
-        badSamuraiWidthNum -= 10;
-        samuraiWidthNum += 10;
-        badSamuraiWidth.style.width = badSamuraiWidthNum + "%";
-        samuraiWidth.style.width = samuraiWidthNum + "%";
+        this.badSamuraiWidthNum += 10;
+        this.samuraiWidthNum -= 10;
+
+        this.badSamuraiWidth.style.width = this.badSamuraiWidthNum + "%";
+        this.samuraiWidth.style.width = this.samuraiWidthNum + "%";
       }
-      if (countPlayer == this.winCount) {
-        this.win(this.player);
-        badSamuraiWidth.style.width = 50 + "%";
-        samuraiWidth.style.width = 50 + "%";
+      if (theTarget.classList.contains("img-face-no-hit")) {
+        this.win(this.playerOneName);
+        const btnReset = document.querySelector(".btn-reset");
+        btnReset.textContent = "Пострадал мирный житель";
       }
-      if (playerTwo == this.winCount) {
-        this.win(this.playerTwo);
-        playerTwo = 0;
-        countPlayer = 0;
-        badSamuraiWidth.style.width = 50 + "%";
-        samuraiWidth.style.width = 50 + "%";
+      if (this.countPlayerOne == this.winCount) {
+        this.win(this.playerOneName);
+        this.playerCountTwo = 0;
+        this.countPlayerOne = 0;
+        this.badSamuraiWidth.style.width = 50 + "%";
+        this.samuraiWidth.style.width = 50 + "%";
+        this.badSamuraiWidthNum = 50;
+        this.samuraiWidthNum = 50;
+      }
+      if (this.playerCountTwo == this.winCount) {
+        this.win(this.playerTwoName);
+        this.playerCountTwo = 0;
+        this.countPlayerOne = 0;
+        this.badSamuraiWidth.style.width = 50 + "%";
+        this.samuraiWidth.style.width = 50 + "%";
+        this.badSamuraiWidthNum = 50;
+        this.samuraiWidthNum = 50;
       }
     });
   }
@@ -94,14 +138,18 @@ class Game {
 
     winner.textContent = `${name} Win`;
     winWrp.classList.add("hiden");
-    // this.createdFaceAndGo(undefined, undefined, false)
+    const cells = document.querySelectorAll(".cell");
 
     btnReset.addEventListener("click", (event) => {
       event.preventDefault();
       let theTarget = event.target;
       if (theTarget.classList.contains("btn-reset")) {
         winWrp.classList.remove("hiden");
-        // this.createdFaceAndGo(undefined, undefined, true)
+        cells.forEach((el) => (el.style = "border:1px solid black"));
+        this.countPlayerOne = 0;
+        this.playerCountTwo = 0;
+        this.badSamuraiWidth.style.width = 50 + "%";
+        this.samuraiWidth.style.width = 50 + "%";
       }
     });
   }

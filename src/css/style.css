@@ -32,6 +32,7 @@
  .samurai {
      background-color: red;
      height: 100%;
+     max-width: 100%;
      box-sizing: border-box;
      display: flex;
      text-align: left;
@@ -39,6 +40,7 @@
 
  .bad-samurai {
      height: 100%;
+     max-width: 100%;
      background-color: #f1a825;
      box-sizing: border-box;
      display: flex;
